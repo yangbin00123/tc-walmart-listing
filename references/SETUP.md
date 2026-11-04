@@ -1,5 +1,7 @@
 # 独立安装与使用检查
 
+逐步下载、安装目录、Codex 配置示例与首次调用见 [README.md](../README.md)。
+
 ## 运行环境
 
 安装目录保持 `tc-walmart-listing`，含 SKILL.md、agents、references、scripts。需要可读取本地文件、运行 Python 3.10+、调用 MCP 的 AI 助手；图片输入还需宿主支持看图。Python 脚本只用标准库，不依赖网站、数据库、Node、云端文案接口或另一份 Skill。模型负责理解资料、意图分类、写作和语义复核，脚本负责可重复的数据与格式校验；运行脚本本身不会自动生成文案。
