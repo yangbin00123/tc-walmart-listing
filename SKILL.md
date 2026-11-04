@@ -7,6 +7,8 @@ description: 针对美国、加拿大和墨西哥的 Walmart 文案规则、事�
 
 严格按阶段执行。逐 ID 查询是一个整组研究任务，最终只生成一份自有商品 Listing。
 
+首次使用先读 `references/SETUP.md`：核对用户输入、宿主能力与 Sorftime MCP 工具；不需要网站或个人连接配置。
+
 ## 必读顺序
 
 1. 读 `references/WORKFLOW.md` 与 `references/SOURCE_CAPABILITIES.json`：区分写作国家与当前数据源覆盖，再判断是否能进入关键词研究。
@@ -19,7 +21,7 @@ description: 针对美国、加拿大和墨西哥的 Walmart 文案规则、事�
 
 - 接受 1–20 个 Walmart Product ID；去重后仍须为 1–20 个。
 - `target_country` 必须为 `US`、`CA` 或 `MX`。美国使用美式英语，加拿大使用加拿大英语，墨西哥使用墨西哥西班牙语。三个写作目标不等于数据源覆盖三个国家；当前 Sorftime Walmart 仅核实 US，CA/MX 不得用美国数据或当地商品页冒充当地关键词研究。
-- 只调用 `sorftime-server` 的 Walmart 工具。主扩词工具固定为 `walmart_product_traffic_terms`。
+- 只调用已确认来自 Sorftime 的 Walmart 工具；`sorftime-server` 是示例连接名，不要求用户使用同一别名。主扩词工具固定为 `walmart_product_traffic_terms`。
 - 必须一个 Product ID 一个 Product ID 查询；每个 ID 的分页结果先完整落盘，再统一聚合。
 - `02_kw_raw.json` 未通过完整性门禁前，禁止过滤关键词、选词或写文案。
 - 正常上架流程中，竞品 ID、标题和品牌仅用于研究；自有产品图片与用户明确提供的事实才是文案事实来源。仅用户明确要求用公开商品实测时，按 WORKFLOW 的 public_product_demo 模式记录同一目标商品来源，不冒充用户事实或品牌授权。

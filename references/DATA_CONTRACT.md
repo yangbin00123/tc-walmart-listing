@@ -66,7 +66,7 @@ aggregate 自动生成 keywords、raw.keyword_data、pagination。聚合记录�
 
 ## 分类账本与导出
 
-prepare 自动生成 profile_sha256/raw_sha256 和 decisions，禁止手工改指纹绕过失效检查。每个原词一条，顺序不变：
+prepare 自动生成 profile_sha256/raw_sha256 和 decisions，禁止手工改指纹绕过失效检查。必须按 KEYWORD_GROUPS.md 经 apply-groups 生成 `group_schema_version:1`，每条包含 intent_group、role、evidence。下面仅展示基础判断字段，不是可直接提交的完整账本。每个原词一条，顺序不变：
 
 ```json
 {"keyword":"storage bag","decision":"eligible","reason_code":"identity_match","reason":"与产品身份一致","query_intent":"寻找收纳袋","fact_ids":["f1"],"relevance":"relevant","intent":"品类泛词"}

@@ -33,6 +33,9 @@ class QualityTests(unittest.TestCase):
             dict(keyword='storage bag', decision='eligible', reason_code='identity', reason='Confirmed identity', query_intent='storage', fact_ids=['f1'], relevance='relevant', intent='category'),
             dict(keyword='waterproof bag', decision='deferred', reason_code='unknown', reason='No evidence', query_intent='waterproof', fact_ids=[], promotion_condition='Confirm performance'),
             dict(keyword='leather bag', decision='excluded', reason_code='conflict', reason='Cotton only', query_intent='leather', fact_ids=['f1'])])
+        self.ledger['group_schema_version'] = 1
+        for i, decision in enumerate(self.ledger['decisions']):
+            decision.update(intent_group='fixture_'+str(i), role='identity', evidence='Synthetic fixture evidence')
         self.save('03_keyword_decisions.json', self.ledger)
         self.export()
         self.save('05_keyword_plan.json', dict(title=[dict(keyword='storage bag')], key_features=[], description=[], not_planned=[]))
@@ -61,6 +64,21 @@ class QualityTests(unittest.TestCase):
             checks={key:dict(status='passed', notes='Synthetic fixture only') for key in ('facts_and_claims','keyword_intent','walmart_copy','variants_and_images')}))
         q.render(self.run)
     def fails(self, phrase): self.assertIn(phrase, '\n'.join(validate(self.run)))
+
+    def test_final_rejects_missing_group_schema(self):
+        self.ledger.pop('group_schema_version')
+        self.save('03_keyword_decisions.json', self.ledger)
+        self.fails('intent-group ledger required')
+
+    def test_final_rejects_unknown_group_schema(self):
+        self.ledger['group_schema_version'] = 2
+        self.save('03_keyword_decisions.json', self.ledger)
+        self.fails('intent-group ledger required')
+
+    def test_final_rejects_missing_group_evidence(self):
+        self.ledger['decisions'][0].pop('evidence')
+        self.save('03_keyword_decisions.json', self.ledger)
+        self.fails('keyword grouping missing evidence')
 
     def test_valid(self): self.assertEqual(validate(self.run), [])
     def test_three_writing_countries_and_source_boundary(self):
@@ -167,7 +185,7 @@ class QualityTests(unittest.TestCase):
         result=subprocess.run([sys.executable,str(script),'rebind',str(self.run)],capture_output=True,text=True)
         self.assertEqual(result.returncode,0,result.stdout)
         self.assertTrue(all(d['decision']=='pending' for d in q.read(self.run,'03_keyword_decisions.json')['decisions']))
-        self.fails('incomplete keyword decision')
+        self.fails('intent-group ledger required')
 
     def test_review_template_invalidates_changes(self):
         import subprocess
@@ -282,7 +300,7 @@ class QualityTests(unittest.TestCase):
         self.save('02_kw_raw.json',self.raw);q.research_check(self.run,rebuild=True)
         self.raw=q.read(self.run,'02_kw_raw.json')
         self.ledger['raw_sha256']=q.digest(self.raw)
-        self.ledger['decisions'][1]=dict(keyword='bag',decision='eligible',reason_code='identity',reason='Broad identity',query_intent='bag',fact_ids=['f1'],relevance='relevant',intent='category')
+        self.ledger['decisions'][1]=dict(intent_group='broad_bag',role='broad',evidence='Synthetic identity evidence',keyword='bag',decision='eligible',reason_code='identity',reason='Broad identity',query_intent='bag',fact_ids=['f1'],relevance='relevant',intent='category')
         self.save('03_keyword_decisions.json',self.ledger);self.export()
         plan=q.read(self.run,'05_keyword_plan.json')
         plan['not_planned']=[dict(keyword='bag',reason='Broad term, not actively targeted')]

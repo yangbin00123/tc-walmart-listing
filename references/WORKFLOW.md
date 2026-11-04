@@ -18,6 +18,7 @@ Product ID 应来自目标国家，不按长度或是否含字母猜测有效性
 |---|---|
 | 01_product_profile.json | 目标国家、输入 ID、本品事实及用户来源 |
 | 02_kw_raw.json | 逐页原始响应、抽取指针、程序聚合结果 |
+| 03_keyword_view.tsv / 03_keyword_groups.json | 全词视图与完整意图分组 |
 | 03_keyword_decisions.json | 每个词唯一一条分类账本 |
 | 03_kw_filtered.json / 03_kw_deferred.json / 03_kw_removed.json | 程序导出的可用/暂缓/剔除词池 |
 | 04_kw_tagged.json | 带证据和标签的可用词 |
@@ -70,7 +71,7 @@ python3 SKILL/scripts/quality.py prepare RUN
 python3 SKILL/scripts/quality.py export RUN
 ```
 
-程序验证每个原词恰好分类一次、事实引用有效，再导出三池与标签。不得手改导出池。新增事实或更换原始数据后运行 `rebind RUN`，重新确认账本中的 pending 判断，再 export；旧理由保留作参考，旧审核不能自动延续。无需 Amazon 的复杂增量系统。
+程序验证每个原词恰好分类一次、事实引用有效，再导出三池与标签。不得手改导出池。新增事实或更换原始数据后运行 `rebind RUN`，重新确认 pending 判断并更新分组，再 apply-groups、export、check-keywords；旧理由保留作参考，旧审核不能自动延续。无需 Amazon 的复杂增量系统。
 
 ## 4. 排序与 Walmart 字段分配
 

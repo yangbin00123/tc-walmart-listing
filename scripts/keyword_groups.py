@@ -13,7 +13,8 @@ def check(profile, decisions):
         if d.get('role') not in ('identity', 'synonym', 'attribute', 'intent', 'broad'):
             raise ValueError('invalid keyword role: ' + d['keyword'])
         if d['decision'] == 'eligible':
-            if any(facts[f].get('status') != 'confirmed' for f in d['fact_ids']):
+            required_status = 'source_reported' if profile.get('mode') == 'public_product_demo' else 'confirmed'
+            if any(facts[f].get('status') != required_status for f in d['fact_ids']):
                 raise ValueError('uncertain fact cannot support eligible keyword: ' + d['keyword'])
             if d['relevance'] == 'high':
                 refs = d.get('specific_fact_ids', [])

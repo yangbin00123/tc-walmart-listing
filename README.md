@@ -1,6 +1,6 @@
 # 拓畅-沃尔玛文案生成
 
-独立 Walmart Listing Skill，技术标识 `tc-walmart-listing`，当前版本 **1.0.0**。不依赖网站、网站数据库或部署服务；独立管理版本。
+独立 Walmart Listing Skill，技术标识 `tc-walmart-listing`，当前版本 **1.0.1**。不依赖网站、网站数据库或部署服务；独立管理版本。
 
 ## 功能
 
@@ -31,3 +31,5 @@ python3 -m unittest discover -s scripts/tests -p 'test_*.py'
 采用独立 SemVer：规则或数据契约的不兼容变化升主版本，兼容能力增加升次版本，兼容修复升补丁版本。每次发布更新 `VERSION` 和 `CHANGELOG.md`，测试通过后创建匹配的 `vX.Y.Z` Git tag 与 GitHub Release，附安装 ZIP 与 SHA-256 校验文件。已发布 tag 不覆盖；修正另发补丁版本。
 
 初始版本来源于已验证的 Walmart Skill 快照，独立打包后不自动更新任何网站调用副本。仓库不包含真实商品资料、任务运行数据或凭证。
+
+完整输入、输出、运行环境与 MCP 接入检查见 [独立使用说明](references/SETUP.md)。

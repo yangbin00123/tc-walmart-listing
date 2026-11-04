@@ -224,6 +224,7 @@ def decision_check(run, exports=False):
     profile, raw = research_check(run)
     ledger = read(run, '03_keyword_decisions.json')
     require(ledger.get('profile_sha256') == digest(profile) and ledger.get('raw_sha256') == digest(raw), 'facts/research changed: review decisions and refresh ledger fingerprints')
+    require(ledger.get('group_schema_version') == 1, 'intent-group ledger required before writing')
     decisions = ledger['decisions']
     require([d['keyword'] for d in decisions] == raw['keywords'], 'every raw keyword must have exactly one decision in source order')
     facts = {f['fact_id'] for f in profile['facts']}
