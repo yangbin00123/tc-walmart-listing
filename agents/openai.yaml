@@ -1,0 +1,10 @@
+interface:
+  display_name: "拓畅-沃尔玛文案生成"
+  short_description: "Walmart 三国文案规则与本地化校验，Sorftime 当前仅核实美国站数据"
+  default_prompt: "Use $tc-walmart-listing to check data-source country coverage, research supported Walmart product IDs, and validate copy for US, CA, or MX without relabelling US data."
+
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "sorftime-server"
+      description: "Reverse-lookup Walmart product traffic terms and keyword details"

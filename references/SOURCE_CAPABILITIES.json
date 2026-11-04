@@ -1,0 +1,12 @@
+{
+  "checked_on": "2026-10-23",
+  "provider": "Sorftime Walmart MCP",
+  "research_countries": ["US"],
+  "writing_countries": ["US", "CA", "MX"],
+  "country_parameter_available": false,
+  "evidence": [
+    {"url": "https://www.sorftime.com/", "finding": "官网将 Walmart 产品标为沃尔玛（美国站）；不能把 Amazon 14 国覆盖套用到 Walmart。"},
+    {"kind": "live_mcp", "finding": "CA 30GTMG201YEB 与 MX 00941420221690 的详情及关键词均无数据；商品名查询出现 walmart.com 美国链接。"}
+  ],
+  "revalidation": "只有供应商明确新增站点能力并有同站真实结果后才更新 research_countries；仅改目标标签、商品名相似、当地商品页存在或用户声明都不构成连接器覆盖证据。"
+}
