@@ -33,6 +33,8 @@ description: 针对美国、加拿大和墨西哥的 Walmart 文案规则、事�
 
 ## 输出与校验
 
+文案 Skill 独立于网站图片策划。默认 `image_plan_required=false`，允许空 `image_plan`；不以缺少策划阻断文案交付。只有宿主或用户明确另行请求策划时才生成，并单独检查事实依据。非 Linkfox 生图所需策划由宿主在生图阶段校验。
+
 - 在当前工作目录创建 `walmart_listing_<YYYYMMDD_HHmmss>/`，按 `WORKFLOW.md` 写完全部 JSON/Markdown 产物。
 - 按 WORKFLOW 使用 `scripts/quality.py` 完成原始记录聚合、词池导出、实际覆盖计算及简短语义复核；再生成 Markdown 并运行 `python3 scripts/validate_output.py <输出目录>`。命令使用 Skill 脚本绝对路径。
 - 校验失败时先修正文案再交付；不得删除校验项或伪造通过结果。

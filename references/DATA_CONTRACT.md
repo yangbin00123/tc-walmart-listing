@@ -11,7 +11,7 @@
   "product_name": "Storage Bag",
   "brand": null,
   "brand_authorized": false,
-  "image_plan_required": true,
+  "image_plan_required": false,
   "forbidden_terms": [],
   "unknowns": ["防水性能未知"],
   "sources": [{"source_id":"s1","kind":"user_text","locator":"本次用户产品描述","excerpt":"用户提供的准确原文"}],
@@ -111,3 +111,7 @@ deferred 需 promotion_condition，例如“用户提供防水测试或明确产
 SOURCE_CAPABILITIES.json 维护 research_countries（当前US）与 writing_countries（US/CA/MX），两者不可混用。不支持站点的实测记录可保留 target_country 与实际来源 marketplace=Walmart US；complete只代表分页调用完成，不代表目标站点验证成功。00_source_verification.json 记录 unsupported_source_market 及原始响应定位。
 
 独立语言测试（需用户明确要求）写 language_test.*，JSON增加 scope=language_test_only、keyword_research_status=unsupported_source_market；使用07同样的文案字段与claims，但不创建关键词池或完整成功报告。copy_checks.py 与完整 validate_output.py 共用字段规则，独立命令输出 scope=copy_format_and_language_signals_only 和 keyword_research_verified=false。本地化与事实语义复核单独记录，不能冒充完整SEO验收。
+
+## 有官方依据的类目字数例外
+
+画像可选 content_standard：{ "product_type": "与category完全一致的类目", "description_min_words": 150, "source_url": "Walmart官方类目标准URL" }。仅在已读取且可核对的官方类目标准明确要求时填写；缺省使用通用150词。语义复核必须核实该URL正文确实支持所填阈值，域名检查本身不证明内容真实。此字段随画像指纹失效检查；系统映射相同阈值，不用固定150词覆盖。

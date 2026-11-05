@@ -93,6 +93,16 @@ class QualityTests(unittest.TestCase):
         self.update_listing();self.finish()
         self.assertEqual(validate(self.run), [])
 
+    def test_category_word_threshold(self):
+        listing=copy.deepcopy(self.listing)
+        listing['product_description']='Useful product information '*20
+        listing['metrics']['description_words']=count_words(listing['product_description'])
+        profile={'category':'Ice Buckets','content_standard':{'product_type':'Ice Buckets','source_url':'https://marketplacelearn.walmart.com/example','description_min_words':50}}
+        self.assertEqual(validate_copy(listing,profile),[])
+        self.assertTrue(validate_copy(listing))
+        profile['content_standard']['product_type']='Other'
+        self.assertTrue(validate_copy(listing,profile))
+
     def test_valid(self): self.assertEqual(validate(self.run), [])
     def test_three_writing_countries_and_source_boundary(self):
         for country, language in [('CA','English (Canada)'), ('MX','Spanish (Mexico)')]:

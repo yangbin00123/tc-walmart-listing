@@ -4,7 +4,7 @@
 
 必填：1–20 个去重的竞品 Product ID、`target_country`（仅 US/CA/MX）、本品图片或文字资料。US 使用美式英语，CA 使用加拿大英语，MX 使用墨西哥西班牙语，不增加其他市场。
 
-可选：自有/授权品牌、真实变体、禁用词；图片策划默认需要，用户明确不要时 `image_plan_required=false`。没有品牌不编品牌，没有变体不补组合。只集中询问真正阻碍写作的事实；未知信息保留在 `unknowns`。
+可选：自有/授权品牌、真实变体、禁用词；文案 Skill 默认不要求图片策划，设 `image_plan_required=false`；系统另行请求策划时才生成，策划是后续生图输入。没有品牌不编品牌，没有变体不补组合。只集中询问真正阻碍写作的事实；未知信息保留在 `unknowns`。
 
 Product ID 应来自目标国家，不按长度或是否含字母猜测有效性。写作只支持 US/CA/MX；当前 Sorftime Walmart 关键词数据仅核实 US，依据与检查日期见 [SOURCE_CAPABILITIES.json](SOURCE_CAPABILITIES.json)。目标国家标签、当地语言或当地商品页面存在，都不能证明 Sorftime 返回的是当地数据。接口没有国家参数，不自行添加，也不删改 MX ID 的前导零或换成美国同款 ID。
 
@@ -30,7 +30,7 @@ Product ID 应来自目标国家，不按长度或是否含字母猜测有效性
 
 ## 1. 确认本品事实
 
-保存画像，包括 product_name/category、brand/brand_authorized、unknowns、forbidden_terms、variations 和 image_plan_required。
+保存画像，包括 product_name/category、brand/brand_authorized、unknowns、forbidden_terms、variations 和 image_plan_required。类目字数例外使用 DATA_CONTRACT 的 content_standard；语义复核必须核对来源内容与实际类目及阈值一致，官方域名本身不构成已核实依据。
 
 把用户文字、图片、文档分别记录为 sources；把确认的身份、材质、规格、数量、功能、场景拆成带 fact_id 的 facts，引用 source_ids。产品核心品名必须引用 identity_fact_ids，不能因扩词中缺席就删去。图片只能证明可见信息，不能据此猜材质、认证或性能。未知不等于已确认不存在。竞品和关键词仅作研究，不作为本品事实来源。
 

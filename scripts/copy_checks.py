@@ -41,8 +41,18 @@ def locale_signals(listing):
             'limitation': 'Signals detect gross language-label mismatch; naturalness, dialect, brands and short image text require semantic review.'}
 
 
-def _validate_copy(listing):
+def _validate_copy(listing, profile=None):
     errors = []
+    minimum = 150
+    standard = (profile or {}).get('content_standard')
+    if standard:
+        from urllib.parse import urlparse
+        host = urlparse(standard.get('source_url', '')).hostname or ''
+        minimum = standard.get('description_min_words')
+        if not (host == 'walmart.com' or host.endswith('.walmart.com')) or not standard.get('product_type') or type(minimum) is not int or minimum < 1:
+            raise ValueError('category word limit requires official source and product type')
+        if standard['product_type'] != profile.get('category'):
+            raise ValueError('category word limit product type mismatch')
     title = listing.get("product_title")
     description = listing.get("product_description")
     features = listing.get("key_features")
@@ -53,8 +63,8 @@ def _validate_copy(listing):
     else:
         body = description
         paragraphs = re.split(r"\n\s*\n", body.strip())
-        if not any(count_words(paragraph) >= 150 for paragraph in paragraphs):
-            errors.append("product_description needs a substantive paragraph of at least 150 words")
+        if not any(count_words(paragraph) >= minimum for paragraph in paragraphs):
+            errors.append(f"product_description needs a substantive paragraph of at least {minimum} words")
     if not isinstance(features, list) or not 3 <= len(features) <= 10:
         errors.append("key_features must contain 3-10 items")
     elif any(not isinstance(item, str) or not item.strip() or len(item) > 80 for item in features):
@@ -95,9 +105,9 @@ def _validate_copy(listing):
     return errors
 
 
-def validate_copy(listing):
+def validate_copy(listing, profile=None):
     try:
-        return _validate_copy(listing)
+        return _validate_copy(listing, profile)
     except (ValueError, TypeError, KeyError, AttributeError, IndexError) as error:
         return ['invalid copy structure: ' + str(error)]
 

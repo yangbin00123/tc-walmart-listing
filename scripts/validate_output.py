@@ -78,7 +78,7 @@ def _validate(directory: Path) -> list[str]:
             if state.get("error") is not None:
                 errors.append(f"product ID {product_id} contains an unresolved error")
 
-    errors.extend(validate_copy(listing))
+    errors.extend(validate_copy(listing, load_json(directory / "01_product_profile.json")))
 
     if not errors:
         final_check(directory)
