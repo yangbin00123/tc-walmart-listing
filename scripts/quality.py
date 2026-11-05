@@ -269,7 +269,6 @@ def coverage(run):
     mapping = {'title': ['product_title'], 'description': ['product_description'],
                'key_features': [f for f in content if f.startswith('key_features.')]}
     require(set(plan) == {'title', 'description', 'key_features', 'not_planned'}, 'invalid keyword plan fields')
-    require(1 <= len(plan['title']) <= 2, 'plan title requires 1-2 phrases')
     for group, names in mapping.items():
         for item in plan[group]:
             word = item['keyword']
@@ -330,7 +329,7 @@ def final_check(run):
     variants = profile.get('variations', [])
     titles = listing.get('variant_titles', [])
     require([v['variant_id'] for v in titles] == [v['variant_id'] for v in variants], 'variant titles must match supplied variants in order')
-    require(all(50 <= len(v['title']) <= 75 for v in titles), 'each rendered variant title must be 50-75 characters')
+    require(all(isinstance(v.get('title'), str) and v['title'].strip() and len(v['title']) <= 150 for v in titles), 'each rendered variant title must be nonempty and at most 150 characters')
     if variants: require(listing.get('variation_title_template'), 'variant template required')
     else: require(not listing.get('variation_title_template'), 'no invented variant template')
     if profile['image_plan_required']: require(listing.get('image_plan'), 'image plan required')
@@ -342,7 +341,7 @@ def final_check(run):
     else:
         require(listing.get('mode', 'production') == 'production', 'output mode differs from profile')
     if brand:
-        require((demo or profile.get('brand_authorized') is True) and listing['product_title'].startswith(brand), 'authorized or demo-reference brand must lead title')
+        require((demo or profile.get('brand_authorized') is True), 'brand requires authorization or a demo-reference source')
     review = read(run, '08_semantic_review.json')
     require(review.get('fingerprints') == {name: digest(read(run, name)) for name in REVIEW_FILES}, 'semantic review stale: regenerate template and re-review changed content')
     for name in ('facts_and_claims', 'keyword_intent', 'walmart_copy', 'variants_and_images'):

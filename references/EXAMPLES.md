@@ -10,7 +10,7 @@
 ABCDEF Women's Mary Jane Pumps, Pointed Toe Low Kitten Heel
 ```
 
-- 品牌在前，品类明确，属性自然，50–75 字符内。
+- 品牌在前，品类明确，属性自然，不超过150字符。
 - 没有连续堆叠 `shoes heels pumps footwear` 等同义词。
 
 差：
@@ -23,7 +23,7 @@ Best Women's Shoes Pumps Heels Dress Shoes Sexy Wedding Shoes Sale
 
 ## 描述
 
-好的方向：先放完整标题，再用至少 150 个目标语言单词陈述已确认的材质、鞋跟高度、鞋头与扣带结构、适用场景、颜色和尺码。语气帮助买家判断，不声称“绝不会疲劳”或“适合所有人”。
+好的方向：自然使用商品名称，以通用至少150词的段落陈述已确认的材质、鞋跟高度、鞋头与扣带结构、适用场景、颜色和尺码。语气帮助买家判断，不声称“绝不会疲劳”或“适合所有人”。
 
 差的方向：从竞品页面复制材质和尺寸；用 `premium`、`perfect`、`must-have` 等空洞形容词凑字数；加入未确认的退换货或质量保证。
 
@@ -54,7 +54,7 @@ women shoes heels pumps wedding shoes comfortable sexy retro vintage
 
 - Title：优先 `mary jane pumps` 与 `low heel`，自然组成标题。
 - Key Features：在真实场景要点中使用 `dress shoes`，不重复整段标题。
-- Description：若婚礼确为适用场景，自然使用 `wedding shoes` 一次。
+- Description：若婚礼确为适用场景，自然使用 `wedding shoes`，避免堆砌。
 - 若商品事实不能支持某词，记录未覆盖原因，不强行埋入。
 
 ## 暂缓词与声明引用

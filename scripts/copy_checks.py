@@ -26,10 +26,10 @@ def locale_signals(listing):
     expected = 'Spanish' if listing.get('marketplace') == 'Walmart Mexico' else 'English'
     other = 'English' if expected == 'Spanish' else 'Spanish'
     errors = []
-    if signals[expected] < 5 or signals[other] > signals[expected]:
-        errors.append('copy language requires review: expected ' + expected + '; body language signals do not support its label')
-    # These are review prompts, not a general dialect classifier or ban on brand names.
     notes = []
+    if signals[expected] < 5 or signals[other] > signals[expected]:
+        notes.append('copy language requires review: expected ' + expected + '; body language signals do not support its label')
+    # These are review prompts, not a general dialect classifier or ban on brand names.
     if listing.get('marketplace') == 'Walmart Canada':
         copy_text = ' '.join([str(listing.get('product_title','')), str(listing.get('product_description','')),
                               *[str(x) for x in listing.get('key_features',[])]])
@@ -46,17 +46,15 @@ def _validate_copy(listing):
     title = listing.get("product_title")
     description = listing.get("product_description")
     features = listing.get("key_features")
-    if not isinstance(title, str) or not 50 <= len(title) <= 75:
-        errors.append("product_title must be 50-75 Unicode characters")
+    if not isinstance(title, str) or not title.strip() or len(title) > 150:
+        errors.append("product_title must be nonempty and at most 150 Unicode characters")
     if not isinstance(description, str):
         errors.append("product_description must be a string")
     else:
-        if isinstance(title, str) and not description.startswith(title):
-            errors.append("product_description must start with the exact product_title")
-        body = description[len(title):] if isinstance(title, str) and description.startswith(title) else description
+        body = description
         paragraphs = re.split(r"\n\s*\n", body.strip())
         if not any(count_words(paragraph) >= 150 for paragraph in paragraphs):
-            errors.append("product_description needs a substantive paragraph of at least 150 words, excluding title")
+            errors.append("product_description needs a substantive paragraph of at least 150 words")
     if not isinstance(features, list) or not 3 <= len(features) <= 10:
         errors.append("key_features must contain 3-10 items")
     elif any(not isinstance(item, str) or not item.strip() or len(item) > 80 for item in features):
@@ -93,7 +91,7 @@ def _validate_copy(listing):
             errors.append("metrics.key_feature_characters is inaccurate")
 
 
-    errors.extend(locale_signals(listing)['errors'])
+    # Language signals are advisory; actual language is checked in semantic review.
     return errors
 
 

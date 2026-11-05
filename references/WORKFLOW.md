@@ -77,7 +77,7 @@ python3 SKILL/scripts/quality.py export RUN
 
 依次使用真实可比热度指标、多竞品命中数量、原始顺序作为排序依据。不同指标不能直接混加，不把命中数量叫搜索量。需要时最多补查 20 个候选词详情并保存真实响应。
 
-仅对 eligible 制定计划：标题 1–2 个核心短语；Key Features 放真实属性词；描述承接其余合适词。所有可用词要么安排一次，要么放入 not_planned 并说明原因。可以放弃覆盖，不为塞词破坏可读性。核心品名、用户提供的事实仍可自然表达，不需要伪造为 Sorftime 返回词。
+仅对 eligible 制定计划：标题可优先安排 1–2 个核心短语（建议，不作数量门槛）；Key Features 放真实属性词；描述承接其余合适词。所有可用词要么安排一次，要么放入 not_planned 并说明原因。可以放弃覆盖，不为塞词破坏可读性。核心品名、用户提供的事实仍可自然表达，不需要伪造为 Sorftime 返回词。
 
 ## 5. 可选竞品语境
 
@@ -85,7 +85,7 @@ python3 SKILL/scripts/quality.py export RUN
 
 ## 6. 按 Walmart 规则写作
 
-完整读取 [WALMART_COPY_RULES.md](WALMART_COPY_RULES.md)，必要时读 EXAMPLES.md。保持标题 50–75 字符、描述以完整标题开头且至少一个正文段落 150 词、3–10 条且每条至多 80 字符的 Key Features；不采用 Amazon 字段、五点格式或 A+。
+完整读取 [WALMART_COPY_RULES.md](WALMART_COPY_RULES.md)，必要时读 EXAMPLES.md。保持标题非空且不超过150字符、描述遵循通用150词段落要求（类目规则以官方依据为准），不强制以标题开头、3–10 条且每条至多 80 字符的 Key Features；不采用 Amazon 字段、五点格式或 A+。
 
 在 JSON 的 claims 中为可核查声明登记原文片段、字段位置与 fact_ids；复合句涉及多个事实就引用全部必要事实。每个非空文案/图片策划字段都需要引用，不能仅给整份文案挂一个笼统事实。图片策划说明用中文，overlay_text 用目标语言，保持原有按需数量。变体只按输入清单展开实际标题供长度检查，保留原有模板交付，不建立 Amazon 父子体系统。
 

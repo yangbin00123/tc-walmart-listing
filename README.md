@@ -1,6 +1,6 @@
 # 拓畅-沃尔玛文案生成
 
-独立 Walmart Listing Skill，技术标识 `tc-walmart-listing`，当前版本 **1.0.2**。不依赖网站、网站数据库或部署服务；独立管理版本。
+独立 Walmart Listing Skill，技术标识 `tc-walmart-listing`，当前版本 **1.0.3**。不依赖网站、网站数据库或部署服务；独立管理版本。
 
 ## 功能
 

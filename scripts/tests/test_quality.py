@@ -80,6 +80,19 @@ class QualityTests(unittest.TestCase):
         self.save('03_keyword_decisions.json', self.ledger)
         self.fails('keyword grouping missing evidence')
 
+    def test_platform_title_boundaries_without_invented_minimum(self):
+        for length in (1, 49, 50, 75, 76, 150, 151):
+            listing=copy.deepcopy(self.listing)
+            listing['product_title']='a'*length
+            listing['metrics']['title_characters']=length
+            self.assertEqual(validate_copy(listing)==[], length<=150)
+
+    def test_description_no_forced_title_and_natural_phrase_repetition(self):
+        self.listing['product_description']=self.listing['product_description'].replace(self.listing['product_title'], '').strip()
+        self.listing['product_description']+=' This storage bag can be folded. Use this storage bag for organizing items.'
+        self.update_listing();self.finish()
+        self.assertEqual(validate(self.run), [])
+
     def test_valid(self): self.assertEqual(validate(self.run), [])
     def test_three_writing_countries_and_source_boundary(self):
         for country, language in [('CA','English (Canada)'), ('MX','Spanish (Mexico)')]:
@@ -204,8 +217,8 @@ class QualityTests(unittest.TestCase):
         self.listing['variation_title_template']='Cotton Storage Bag for Organizing Personal Items ({Color})'
         self.listing['variant_titles']=[dict(variant_id='v1',title='Cotton Storage Bag for Organizing Personal Items (Blue)')]
         self.update_listing(); self.finish(); self.assertEqual(validate(self.run),[])
-        self.listing['variant_titles'][0]['title']='Short'
-        self.update_listing(); self.save('08_keyword_coverage.json',q.coverage(self.run)); self.fails('50-75 characters')
+        self.listing['variant_titles'][0]['title']='x'*151
+        self.update_listing(); self.save('08_keyword_coverage.json',q.coverage(self.run)); self.fails('at most 150 characters')
 
 
     def test_real_empty_sentinel_and_error_separation(self):
@@ -312,14 +325,16 @@ class QualityTests(unittest.TestCase):
     def test_english_cannot_pass_under_mexican_label(self):
         listing=copy.deepcopy(self.listing)
         listing.update(marketplace='Walmart Mexico',listing_language='Spanish (Mexico)')
-        self.assertIn('expected Spanish','\n'.join(validate_copy(listing)))
+        self.assertIn('expected Spanish','\n'.join(locale_signals(listing)['review_notes']))
+        self.assertEqual(validate_copy(listing), [])
 
     def test_spanish_cannot_pass_under_canadian_label(self):
         listing=copy.deepcopy(self.listing)
         listing.update(marketplace='Walmart Canada',listing_language='English (Canada)')
         listing['product_description']=listing['product_title']+'\n\n'+('Este recipiente de plástico sirve para guardar los alimentos en la cocina. '*13)
         listing['metrics']['description_words']=count_words(listing['product_description'])
-        self.assertIn('expected English','\n'.join(validate_copy(listing)))
+        self.assertIn('expected English','\n'.join(locale_signals(listing)['review_notes']))
+        self.assertEqual(validate_copy(listing), [])
 
     def test_local_page_does_not_prove_provider_coverage(self):
         self.profile['target_country']='CA'

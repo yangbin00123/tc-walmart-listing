@@ -96,7 +96,7 @@ deferred 需 promotion_condition，例如“用户提供防水测试或明确产
 - `claims`：`{"field":"key_features.0","text":"字段中准确存在的声明片段","fact_ids":["f1"]}`。
 - 字段路径支持 product_title、product_description、key_features.0、variation_title_template、variant_titles.0.title、image_plan.0.direction、image_plan.0.overlay_text，索引从 0 开始。
 - 每个可核查声明均需事实引用，每个非空内容字段至少一条引用。照片构图等非产品声明不需另造事实，但所在图片策划要引用展示产品的真实事实。
-- `metrics` 保持 title_characters、description_words（含标题的整个描述）、key_feature_characters；150 词段落检查单独排除开头标题。
+- `metrics` 保持 title_characters、description_words（含标题的整个描述）、key_feature_characters；段落按实际描述计词，不强制附加标题或排除标题文字。
 
 08 覆盖文件由 audit 生成，不能手改 used/matched_text。planned 是计划字段的实际命中；actual_eligible 是全部可用词在前台文案中的实际位置，含未计划但自然出现的词；summary 分开统计两者。语义复核由 review-template 创建 pending，实际复核后填写状态与中文 notes；程序重算 fingerprints，修改上游后旧通过状态失效。指纹是失效检测，不是对来源真实性的密码学证明。
 
